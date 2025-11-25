@@ -1,6 +1,7 @@
 package com.example.lab14
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,14 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lab14.ui.theme.BaldositaTheme
-import androidx.compose.ui.platform.LocalContext
-
 
 class WorkActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -220,7 +220,6 @@ fun DecorativeChart() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Gráfico de línea decorativo falso
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -378,10 +377,14 @@ fun MetricCard(icon: String, title: String, value: String, subtitle: String) {
 
 @Composable
 fun BackButton() {
-    val activity = LocalContext.current as? Activity
+    val context = LocalContext.current
+    val activity = context as? Activity
 
     Button(
         onClick = {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            context.startActivity(intent)
             activity?.finish()
         },
         modifier = Modifier
